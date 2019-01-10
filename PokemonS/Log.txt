@@ -1,0 +1,25 @@
+---------- Erreur de script : Loading ----------
+----- Type
+Errno::ENOENT
+
+----- Message
+No such file or directory - Audio/SE/134-Wind03
+
+----- Position dans Loading
+Ligne 1
+
+----- Backtrace
+Script : Loading | Ligne : 1 | Méthode : in `se_play'
+Script : Loading | Ligne : 1 | Méthode : in `animation_process_timing'
+Script : Loading | Ligne : 1 | Méthode : in `update_animation'
+Script : Loading | Ligne : 1 | Méthode : in `each'
+Script : Loading | Ligne : 1 | Méthode : in `update_animation'
+Script : Module RPG | Ligne : 117 | Méthode : in `update'
+Script : Pokemon_Battle_Core 1 | Ligne : 1708 | Méthode : in `attack_animation'
+Script : Pokemon_Battle_Core 2 | Ligne : 914 | Méthode : in `attack_action'
+Script : Pokemon_Battle_Core 1 | Ligne : 526 | Méthode : in `phase3'
+Script : Pokemon_Battle_Core 1 | Ligne : 409 | Méthode : in `update'
+Script : Pokemon_Battle_Core 1 | Ligne : 153 | Méthode : in `main'
+Script : Pokemon_Battle_Core 1 | Ligne : 150 | Méthode : in `loop'
+Script : Pokemon_Battle_Core 1 | Ligne : 157 | Méthode : in `main'
+Script : Main | Ligne : 52

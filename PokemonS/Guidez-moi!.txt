@@ -1,0 +1,145 @@
+Guide d'intégration des projets de PSP 0.5 à vers PSP 0.7: 
+
+Script : Différences par rapport à PSP 0.5
+
+Dans vos scripts et dans les fichiers data_xxx.txt, remplacez les données suivantes :
+- $pokemon_info devient Pokemon_Info
+- $item devient Item
+- $trainer_id devient Player.id
+- $trainer_name devient Player.name
+- $skill devient Skill_Info
+- $trainer_battler devient Player.battler
+- $maplink[0] devient _MAPLINK (qui est équivalent à l'interrupteur 4)
+- Les codes évolutions ont changé pour refleter les possibilités de D/P, cf manuel pour plus de renseignement sur la nouvelle façon de coder
+- La variable globale $trainer_battler n'est désormais plus utilisée. Pour changer l'apparence du héros au combat, utilisez la commande d'évènement "Changer l'apparence du héros".
+
+
+Quelques remarques :
+- possibilité d'utiliser pokemon_choisi après appel_menu_equipe (cf manuel)
+- Le splashscreen devient loading screen et ne s'affiche plus dans Scene_Title, mais pendant le chargement du jeu (donc laissez le tranquille ;))
+- Un Pokemon a maintenant 2 attributs supplémentaires, .egg et .step_remaining, du à l'intégration des oeufs
+- Les variables n°7 PENSION DATA, n°8 SAVESLOT, et n°9 TRAINER CODE sont maintenant utilisée par PSP, ainsi que l'interrupteur N°4 MAPLINK, N°5 VOL AUTORISé et N°6 MODE DEX REGIONAL.
+- Le dossier Battler/Front_Male possède une image de plus, 000.png, affiché au cas ou le Pokémon est inconnu (erreur en base de donnée), et aussi dans le Pokédex.
+- Un nouveau sous-dossier, Egg, fait son apparition dans le dossier de Battler.
+
+
+IMPORTANT !
+- Vos sauvegardes en l'état seront incompatibles. L'idéal est que vous recommenciez une partie pour être sûr qu'il n'y a aucun problème et que vous ne conserviez pas vos anciennes sauvegardes. Eventuellement si vous avez vraiment besoin de récupérer une sauvegarde, vous pouvez, dans Config Panel, régler SAVE_CONVERT = true, puis charger votre partie, et là ré-enregistrer. Elle sera convertie au format PSP 0.7. Il faudra régler SAVE_CONVERT = false pour pouvoir lire vos nouvelles sauvegardes. Cette méthode n'est pas assurée d'être à 100% compatible malgré mes précautions.
+
+
+
+
+
+
+
+Migration des projets :
+
+Après avoir testé PSP 0.7, vu un peu les nouvelles fonctionnalités, et familiarisés avec les différences qui existent entre PSP/4G et PSP 0.7, vous voulez "mettre à jour" votre projet. Croisez les doigts, ca peut prendre un peu de temps. Plus le projet est gros, plus le projet est développé, plus le projet utilise des choses "hors" PSP, plus l'intégration sera longue. Mais ca vaut le coup, soyez en sur!
+
+- Faites une sauvegarde de votre projet (une copie de votre dossier), au cas ou. Fermez PSP_Mod (RMXP) si vous l'aviez ouvert, fermez tous vos projets.
+- A partir du dossier de votre jeu, copiez Game.ini dans le dossier de PSP 0.7.
+- A partir du dossier de votre jeu, copiez Game.rxproj dans le dossier de PSP 0.7.
+- A partir du dossier de votre jeu, copiez Savex.rxdata (ou x est un chiffre entre 1 et 3) dans le dossier de PSP 0.7.
+- A partir du dossier de votre jeu, copiez l'ensemble du dossier Audio vers PSP. Attention : J'ai remis à jour les sons issus de PSP4G (Audio/SE/Cries, ils sont maintenant de meilleur qualité). Vous pouvez choisir de les conserver au lieu de les écraser. Ecrasez les autres fichiers si nécessaire.
+- A partir du dossier de votre jeu, copiez l'ensemble du dossier Graphics vers PSP. Attention : J'ai remis à jours les sprites des battlers (Battlers/Front_Male et Battlers/Shine_Front_Male) issus de PSP4G, vous pouvez choisir de les conserver au lieu de les écraser. Pour les autres fichiers, écrasez les si nécessaire. A priori, vous n'écraserez aucun des fichiers graphiques utilisés par PSP 0.7 donc pas d'inquiétude la dessus.
+- On s'attaque au dossier Data. A partir du dossier de votre jeu, copiez coller les fichiers suivants vers PSP:
+	Actors.rxdata
+	Mapxxx.rxdata (xxx est un nombre à 3 chiffres)
+	MapInfos.rxdata
+	Tilesets.rxdata
+	Troops.rxdata
+	data_ball.txt
+	data_zone.txt
+	data_item.txt
+
+- Ouvrez ensuite 2 fenêtres de PSP_Mod.exe (ou RMXP), l'une ouverte sur votre projet, l'autre ouverte sur PSP 0.7.
+
+- L'onglet Héros est normalement déjà mis à jour.
+
+- L'onglet Evolution : Les Pokémons de la 4G ont été ajouté
+Si vous n'avez pas ajouté de Pokémon Custom, ne touchez pas à cette section. Elle est mise à jour et entièrement corrigée. 
+Si vous avez des Pokémons Customisés (dans le sens vous avez au moins effectué une petite modification dans un Pokémon existant, ou bien crée un nouveau Pokémon) : dans votre projet, sélectionnez les entrées de vos Pokémons et faites un copier-coller vers l'onglet Evolution de PSP 0.7, aux places de votre choix. Après les Pokémons existants si vous souhaitez conserver les 493 premiers Pokémons, ou écrasez les Pokémons. Vous pouvez effacer les Pokémons que vous ne voulez pas (si vous êtes plutôt un adepte de la 3G), mais veillez à ne pas laisser de trous.
+ATTENTION: un bug qui était resté dans PSP (et donc dans PSP4G) modifiait la répartition des EV quand vous faisiez une MAJ BDD. Profitez de ce déplacement pour corriger les EV de vos Pokémons customisés.
+
+- L'onglet Attaques : Les attaques de la 4G ont été ajoutées. 
+Si vous avez réalisé des attaques custom, copiez-coller les de votre projet vers PSP4G après les attaques existantes. Il faudra penser à corriger, dans l'onglet Evolution, la liste des attaques apprises de vos Pokémons si ceux-ci connaissaient vos attaques customisées.
+
+- L'onglet Objet : 
+Copiez coller de votre projet l'ensemble de vos objets vers l'onglet Objets de PSP 0.7. De préférence dans des emplacements vides, situés après la liste des objets par défaut. Si vos objets possèdent un ID déjà occupé par une CT (de la 4G probablement), vous pouvez déplacer la CT, ou bien coller votre objet après la liste des nouvelles CTs. Il faudra penser à corriger dans vos Events, là ou vous avez besoin de cet objet.
+ATTENTION: Pour tout objet customisé que vous réimportez, il faut REGLER les paramètres objets (Poche, Profil).
+
+- Les 2 onglets Paramètres :
+A priori, il n'y a pas à les toucher. Si vous aviez ajouté des CT/CS custom, elles seront ajouté automatiquement à la suite.
+
+- L'onglet Pokémon :
+Si vous n'avez pas ajouté de Pokémon Custom, ne touchez pas à cette section. Elle est mise à jour et entièrement corrigée. 
+Si vous avez des Pokémons Customisés : dans votre projet, sélectionnez les entrées de vos Pokémons et faites un copier-coller vers l'onglet Pokémon de PSP 0.7, aux places de votre choix. Après les Pokémons existants si vous souhaitez conserver les 493 premiers Pokémons, ou écrasez les Pokémons. Vous pouvez effacer les Pokémons que vous ne voulez pas (si vous êtes plutôt un adepte de la 3G), mais veillez à ne pas laisser de trous.
+
+- L'onglet Rencontres et Dresseurs : C'est normalement corrigé.
+
+- L'onglet Statuts : rien à faire
+
+- L'onglet Animations :
+Certaines nouvelles animations ont été ajoutées par rapport à PSP4G. Vous pouvez copier-coller une par une vos animations custom, ou bien récupérer la totalité de vos animations (j'expliquerai comment faire après) en écrasant celles incluses dans PSP 0.7.
+
+- L'onglet Gestion de chipsets : C'est normalement corrigé.
+
+- Evènements communs : 4 évènements communs ont été modifiés par rapport à PSP (v0.5) : 
+le n°3 DOIT rester où il est
+le n°4, PENSION, peut être déplacé
+le n°5, ECHANGE, peut etre déplacé
+le n°11, CARTE, peut être déplacé (mais il faudra corriger l'objet CARTE n°260 dans la BDD de PSP V0.7)
+Vos évènements communs peuvent être copié collés de votre projet vers PSP 0.7. Et si vous aviez modifié les autres évènements communs, vous pouvez réimporter vos modifications également.
+
+- L'onglet Système :
+Rechangez les sons, les musiques, les héros de départ, éventuellement les attributs si vous aviez ajouté de nouveaux types. Les attributs concernant les poches et profils objets ont été déplacés, il ne faut pas y toucher.
+
+- Fermez la BDD de PSP 0.7, sauvegardez. Vous pouvez fermer la fenêtre de RMXP qui a ouvert votre (ancien) projet.
+
+- On va corriger les fichiers data_xxx.txt :
+*data_ball.txt n'a subit aucun changement par rapport aux versions précédentes
+*data_zone.txt doit être remplit correctement dorénavant :
+	$data_zone[ID Zone] = ["NOM_ZONE", "IMAGE_DU_PANNEAU"]
+	référez-vous au manuel, ou aux exemples de PSP 0.7, pour plus de détails
+*data_item.txt : si vous avez réimporté votre data_item.txt, ouvrez le et remplacez toutes les occurences de "$skill.id" par "Skill_Info.id"
+*data_pokemon.txt : je vous recommende fortement de conserver le data_pokemon.txt fourni avec PSP 0.7. Il faut cependant réimporter vos Pokémons customs : copiez collez les entrées concernant vos Pokémons, en prenant le soin de corriger les codes d'évolutions si nécessaires (cf manuel et exemples pour savoir comment corriger). Pensez à supprimer les entrées des Pokémons qui n'existent plus dans votre base de données, si vous avez supprimé des Pokémons. Il faut absolument que le nombre de Pokémons dans votre base de données corresponde au nombre de Pokémons dans data_pokemon.txt
+
+- POINT CRITIQUE : l'étape suivante peut s'avérer fastidieuse. Je vous conseille donc de faire une copie du dossier Data de PSP 0.7 que vous venez fraîchement de modifier. La partie critique approche, c'est ici que vous allez jouer au mécanicien/chirurgien/bidouilleur et j'en passe.
+
+
+
+
+- De retour à PSP_Mod (RMXP), dans la fenêtre de PSP 0.7. La prochaine étape est de lancer le menu DEBUG. 
+Au démarrage du jeu, le jeu va inspecter les fichiers data_xxx.txt et repporter toute erreur (incohérence dans la base de données, champs mal remplis, erreur de syntaxe, etc...). Vous pouvez inspecter le fichier Log.txt présent dans le dossier de PSP 0.7, généré après chaque bug. Vous pouvez inspecter LoadingLog.txt généré après chaque incohérence entre la base de données et data_pokemon.txt >>> s'y trouve la liste des ID des Pokémons qui ont un problème. N'hésitez pas à repporter les Logs sur le forum, si vous n'arrivez vraiment pas au bout du 10ème essai à corriger un problème. Faites en sorte de corriger tout bug, et toute erreur en base de données, jusqu'à ce que le jeu démarre enfin. 
+
+Bravo, vous venez d'accomplir la moitié du travail ! La base de données et RMXP semblent être d'accord avec les corrections que vous avez apporté.
+
+- POINT CRITIQUE : Faites une sauvegarde du dossier Data, puisque le jeu accepte de démarrer sans crier au bug. Il serait dommage de perdre tous ces efforts. La suite peut rendre la base de données invalide, car on va faire un MAJ BDD (et un MAJ BDD c'est dangereux hin hin hin).
+
+
+
+
+- Vos sauvegardes en l'état seront incompatibles. L'idéal est que vous recommenciez une partie pour être sûr qu'il n'y a aucun problème et que vous ne conserviez pas vos anciennes sauvegardes. Eventuellement si vous avez vraiment besoin de récupérer une sauvegarde, vous pouvez, dans Config Panel, régler SAVE_CONVERT = true, puis charger votre partie, et là ré-enregistrer. Elle sera convertie au format PSP 0.7. Il faudra régler SAVE_CONVERT = false pour pouvoir lire vos nouvelles sauvegardes. Cette méthode n'est pas assurée d'être à 100% compatible malgré mes précautions.
+
+Pour être safe et partir de bon pied, faites Nouvelle partie plutôt. Il est probable que dans vos events, il y a des scripts lancés, scripts qui n'existent plus dans PSP 0.7. Essayez dans vos events de désactiver (temporairement) les appels de scripts. Le but étant de commencer une partie pour lancer le menu DEBUG.
+
+Quand vous pourrez ouvrir le menu Debug, faites MAJ BDD (POINT CRITIQUE!). Une fois la MAJ terminée, le jeu va se fermer. Fermez votre projet, puis réouvrez le : inspectez la base de données. Regardez si vos Pokémons customisés sont toujours là, et n'ont pas subit de changements dans leurs réglages (principalement réglages d'évolution et autres). Inspectez les paramètres : Est-ce que les nouvelles CT sont là, les capacités spéciales, blablabla...
+
+Un problème par contre : si vous avez intégré de nouvelles CT/CS, il faudra peut-être recocher les cases concernant ces nouvelles techniques dans l'onglet Evolution. Vos Pokémons les ont probablement oublié pendant la MAJ BDD.
+
+N'hésitez pas à relancer le jeu, pour voir si il y a un problème de chargement. A priori, il ne devrait pas y en avoir. Faites une deuxième MAJ BDD. Et refaites vos vérifications, en recochant les cases qui ne sont pas passées. Refaites la manip tant que la MAJ BDD continue de supprimer des cases. (Ca ne doit pas dépasser une ou 2 fois).
+
+
+
+- Plus de problème? Bravo! A partir de ce point là, c'est du gateau, et le travail qui reste dépend de la taille de votre projet. Vous avez fait le plus difficile, mais pas forcément le plus long. Il reste à réintégrer les scripts et les events.
+
+PSP 0.7 utilise des variables et des interrupteurs à lui (liste en début de ce fichier texte). Vérifiez dans vos events que vous n'utilisez pas ces variables et interrupteurs. Modifiez le cours de vos events si nécessaire.
+
+
+
+- Et la réintégration des scripts? C'est à vous de le faire là... je ne peux plus vous guider. Faites en sorte d'effectuer les remplacements que j'ai indiqué en début de ce fichier dans les scripts que vous réimportez.
+Si vous avez crée de nouveaux types, vous pouvez les recréer à nouveau à partir du script Pokemon_Types.
+Un autre script, appelé Pokemon_Custom, permet d'insérer certaines règles spéciales, afin d'éviter de toucher aux scripts de coeur. Je vous conseille de faire de même pour toute modif que vous faite, ca évitera d'écraser vos modifs durant les prochaines mises à jour!
+
+
+Bonne chance!
